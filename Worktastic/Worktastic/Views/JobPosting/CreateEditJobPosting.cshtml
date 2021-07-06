@@ -1,5 +1,83 @@
-﻿@{
+﻿@model Worktastic.Models.JobPosting
+
+@{
     ViewData["Title"] = "Erstellen oder Bearbeiten";
 }
 
-Hier kannst du ein neues Inserat anlegen
+
+
+<form asp-controller="JobPosting" asp-action="CreateEditJob">
+
+    <div class="card">
+
+        <div class="card-header">
+            <h5>Inserat bearbeiten</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row form-group">
+                <div class="col ">
+                    <input class="form-control" asp-for="JobTitle" type="text" placeholder="Bitte trage eine Jobbezeichnung ein" />
+                </div>
+                <div class="col">
+                    <input class="form-control" asp-for="JobLocation" type="text" placeholder="Bitte trage einen Ort ein" />
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col">
+                    <textarea rows="6" class="form-control" asp-for="Description" placeholder="Bitte trage eine ausführliche Beschreibung ein"></textarea>
+                </div>
+            </div>
+
+
+            <div class="row form-group">
+                <div class="col-6">
+                    <input class="form-control" asp-for="Salary" type="number" placeholder="Wie viel Jahresgehalt zahlt ihr?" />
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-3">
+                    <div class="col-form-label">
+                        Wann startet der Job?
+                    </div>
+                    <input class="form-control" asp-for="StartDate" type="date" />
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row form-group">
+                <div class="col">
+                    <input class="form-control" asp-for="CompanyName" type="text" placeholder="Wie heißt deine Firma?" />
+                </div>
+                <div class="col">
+                    <input class="form-control" asp-for="ContactWebsite" type="url" placeholder="Website" />
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col">
+                    <input class="form-control" asp-for="ContactPhone" type="tel" placeholder="Telefonnummer" />
+                </div>
+                <div class="col">
+                    <input class="form-control" asp-for="ContactMail" type="email" placeholder="E-Mail Adresse" />
+                </div>
+            </div>
+
+            <div class="row form-group">  
+                <div class="col">
+                    <input class="custom-file-input" asp-for="CompanyImage" type="file" placeholder="Profilbild" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-footer">
+            <button class="btn btn-primary" type="submit">Speichern</button>
+        </div>
+    </div>
+
+</form>
