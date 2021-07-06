@@ -29,8 +29,7 @@
                     <td>@jobPosting.CompanyName</td>
                     <td>
                         <a asp-route-id="@jobPosting.Id" asp-controller="JobPosting" asp-action="CreateEditJobPosting" class="btn btn-warning">Edit</a>
-                        <a asp-route-id="@jobPosting.Id" asp-controller="JobPosting" asp-action="DeleteJobPosting" class="btn btn-danger">Löschen</a>
-
+                        <button onclick="onClickedDeleteButton(@jobPosting.Id)" class="btn btn-danger">Löschen</button>
                     </td>
                 </tr>
             }
@@ -41,8 +40,40 @@
 
 @section Scripts {
     <script>
+
         $(document).ready(function () {
             $('#jobPostingTable').DataTable();
         });
+
+        function onClickedDeleteButton(id) {
+
+            Swal.fire({
+                title: 'Möchtest du das Inserat wirklich löschen?',
+                icon: 'error',
+                showCloseButton: true,
+                focusConfirm: false,
+                confirmButtonText:
+                    'Ja, löschen!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    // Backend call to delete job posting by id
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("DeleteJobPostingById")",
+                        data: { id: id },
+                        success: function (msg) {
+                            Swal.fire('Wurde gelöscht!', '', 'success').then((result) => {
+                                location.reload();                                
+                            });
+                        },
+                        error: function (msg) {
+                            Swal.fire('Ups, etwas ist schief gelaufen!', '', 'error')
+                        }
+                    });
+                }
+            })
+        }
+    
     </script>
 }
