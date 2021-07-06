@@ -87,5 +87,21 @@ namespace Worktastic.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public IActionResult DeleteJobPosting(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+
+            var jobPostingFromDb = _context.JobPostings.SingleOrDefault(x => x.Id == id);
+
+            if (jobPostingFromDb == null)
+                return NotFound();
+
+            _context.JobPostings.Remove(jobPostingFromDb);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
 }

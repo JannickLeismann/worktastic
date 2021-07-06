@@ -29,6 +29,8 @@
                     <td>@jobPosting.CompanyName</td>
                     <td>
                         <a asp-route-id="@jobPosting.Id" asp-controller="JobPosting" asp-action="CreateEditJobPosting" class="btn btn-warning">Edit</a>
+                        <a asp-route-id="@jobPosting.Id" asp-controller="JobPosting" asp-action="DeleteJobPosting" class="btn btn-danger">Löschen</a>
+
                     </td>
                 </tr>
             }
