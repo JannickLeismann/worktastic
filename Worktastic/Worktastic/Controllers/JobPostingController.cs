@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Worktastic.Data;
@@ -10,6 +11,7 @@ using Worktastic.Models;
 
 namespace Worktastic.Controllers
 {
+    [Authorize]
     public class JobPostingController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -30,6 +32,12 @@ namespace Worktastic.Controllers
             if(id != 0)
             {
                 var jobPostingFromDb = _context.JobPostings.SingleOrDefault(x => x.Id == id);
+
+
+                if(jobPostingFromDb.OwnerUsername != User.Identity.Name)
+                {
+                    return Unauthorized();
+                }
 
                 if(jobPostingFromDb != null)
                 {
