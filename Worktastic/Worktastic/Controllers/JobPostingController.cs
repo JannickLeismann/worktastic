@@ -21,16 +21,32 @@ namespace Worktastic.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var jobPostingsFromDb = _context.JobPostings.Where(x => x.OwnerUsername == User.Identity.Name).ToList();
+            return View(jobPostingsFromDb);
         }
 
         public IActionResult CreateEditJobPosting(int id)
         {
+            if(id != 0)
+            {
+                var jobPostingFromDb = _context.JobPostings.SingleOrDefault(x => x.Id == id);
+
+                if(jobPostingFromDb != null)
+                {
+                    return View(jobPostingFromDb);
+                } else
+                {
+                    return NotFound();
+                }
+            }
+
             return View();
         }
 
         public IActionResult CreateEditJob(JobPosting jobPosting, IFormFile file)
         {
+            jobPosting.OwnerUsername = User.Identity.Name;
+
             if(file != null)
             {
                 using (var ms = new MemoryStream())
@@ -56,14 +72,15 @@ namespace Worktastic.Controllers
 
                 jobFromDb.CompanyImage = jobPosting.CompanyImage;
                 jobFromDb.CompanyName = jobPosting.CompanyName;
-                jobFromDb.ContactMail = jobFromDb.ContactMail;
-                jobFromDb.ContactPhone = jobFromDb.ContactPhone;
-                jobFromDb.ContactWebsite = jobFromDb.ContactWebsite;
-                jobFromDb.Description = jobFromDb.Description;
-                jobFromDb.JobLocation = jobFromDb.JobLocation;
-                jobFromDb.JobTitle = jobFromDb.JobTitle;
-                jobFromDb.Salary = jobFromDb.Salary;
-                jobFromDb.StartDate = jobFromDb.StartDate;
+                jobFromDb.ContactMail = jobPosting.ContactMail;
+                jobFromDb.ContactPhone = jobPosting.ContactPhone;
+                jobFromDb.ContactWebsite = jobPosting.ContactWebsite;
+                jobFromDb.Description = jobPosting.Description;
+                jobFromDb.JobLocation = jobPosting.JobLocation;
+                jobFromDb.JobTitle = jobPosting.JobTitle;
+                jobFromDb.Salary = jobPosting.Salary;
+                jobFromDb.StartDate = jobPosting.StartDate;
+                jobFromDb.OwnerUsername = jobPosting.OwnerUsername;
             }
 
             _context.SaveChanges();
