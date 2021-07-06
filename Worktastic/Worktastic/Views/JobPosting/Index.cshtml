@@ -8,7 +8,7 @@
 
 <hr />
 
-<table class="table table-bordered table-striped table-hover">
+<table id="jobPostingTable" class="table table-bordered table-striped table-hover">
     <thead class="thead-dark">
         <tr>
             <th>Job Titel</th>
@@ -38,3 +38,11 @@
         
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#jobPostingTable').DataTable();
+        });
+    </script>
+}
