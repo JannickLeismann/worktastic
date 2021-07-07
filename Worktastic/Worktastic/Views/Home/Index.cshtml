@@ -34,7 +34,7 @@
     @{
         foreach (JobPosting jobPosting in Model)
         {
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+            <a href="#" onclick="showModal(@jobPosting.Id)" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">@jobPosting.JobTitle</h5>
                     <small>@jobPosting.JobLocation</small>
@@ -46,3 +46,65 @@
     }
 
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalJobPosting" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <img id="modalImage" class="img-fluid" src="" />
+
+                <div id="modalDescription">
+
+                </div>
+
+                <div id="modalSalary" class="mt-2">
+
+                </div>
+
+                <hr />
+
+                <div id="modalContact">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+
+        function showModal(id) {
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetJobPosting")",
+                data: { id: id },
+                success: function (data) {
+
+                    $('#modalImage').attr('src', `data:image/png;base64,${data.companyImage}`);
+
+                    $('#modalTitle').text(data.jobTitle);
+                    $('#modalDescription').text(data.description);
+                    $('#modalContact').text("Kontakt: " + data.contactMail);
+                    $('#modalSalary').text("Jahresgehalt: " + data.salary + "€");
+
+
+                    $('#modalJobPosting').modal('show')
+
+                }
+             });
+        }
+    </script>
+}
