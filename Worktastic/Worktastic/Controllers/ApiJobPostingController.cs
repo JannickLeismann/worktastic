@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Worktastic.Data;
+using Worktastic.Models;
 
 namespace Worktastic.Controllers
 {
@@ -35,6 +36,18 @@ namespace Worktastic.Controllers
                 return NotFound();
 
             return Ok(jobPosting);
+        }
+
+        [HttpPost("Create")]
+        public IActionResult Create(JobPosting jobPosting)
+        {
+            if (jobPosting.Id != 0)
+                return BadRequest();
+
+            _context.JobPostings.Add(jobPosting);
+            _context.SaveChanges();
+
+            return Ok();
         }
     }
 }
