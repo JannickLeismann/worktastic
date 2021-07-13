@@ -63,5 +63,17 @@ namespace Worktastic.Controllers
 
             return Ok("Objekt wurde gelöscht.");
         }
+
+        [HttpPut("Update")]
+        public IActionResult Update(JobPosting jobPosting)
+        {
+            if (jobPosting.Id == 0)
+                return BadRequest("JobPosting hat keine Id.");
+
+            _context.JobPostings.Update(jobPosting);
+            _context.SaveChanges();
+
+            return Ok("Objekt gespeichert");
+        }
     }
 }
