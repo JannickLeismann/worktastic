@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Worktastic.Data;
+using Worktastic.Filters;
 using Worktastic.Models;
 
 namespace Worktastic.Controllers
 {
     [Route("api/jobposting")]
     [ApiController]
+    [ApiKeyAuthoriziation]
     public class ApiJobPostingController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
